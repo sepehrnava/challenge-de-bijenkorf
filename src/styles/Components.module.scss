@@ -1,0 +1,52 @@
+.button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border: none;
+  border-radius: 100%;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background-color: transparent;
+
+  &.button--icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+  }
+  &:active {
+    -webkit-transform: scale(0.95);
+    transform: scale(0.95);
+  }
+  &--disabled {
+    pointer-events: none;
+  }
+  &--hidden {
+    opacity: 0;
+  }
+}
+
+.icon {
+  width: 15px;
+  height: 15px;
+  position: relative;
+}
+
+.input {
+  padding: 10px;
+  border: none;
+  min-width: 250px;
+  font-size: 14px;
+
+  &:focus {
+    outline: none;
+  }
+  &[type="search"]::-webkit-search-decoration,
+  &[type="search"]::-webkit-search-cancel-button,
+  &[type="search"]::-webkit-search-results-button,
+  &[type="search"]::-webkit-search-results-decoration {
+    display: none;
+  }
+}
