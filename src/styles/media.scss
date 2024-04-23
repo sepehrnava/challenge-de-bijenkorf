@@ -1,0 +1,29 @@
+$xl: 1280px;
+$lg: 1024px;
+$md: 720px;
+$sm: 640px;
+$xs: 480px;
+
+@mixin responsive($media) {
+  @if $media == "xl" {
+    @media (min-width: $xl) {
+      @content;
+    }
+  } @else if $media == "lg" {
+    @media (min-width: $lg) {
+      @content;
+    }
+  } @else if $media == "md" {
+    @media (min-width: $md) {
+      @content;
+    }
+  } @else if $media == "sm" {
+    @media (min-width: $sm) {
+      @content;
+    }
+  } @else if $media == "xs" {
+    @media (min-width: $xs) {
+      @content;
+    }
+  }
+}

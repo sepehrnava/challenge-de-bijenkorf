@@ -5,10 +5,14 @@
     gap: 10px;
     border: 1px solid #d7d7d7;
     transition: border-color 0.3s;
+    &--submit {
+      border-color: green;
+    }
     &--active {
       border-color: #474747;
     }
   }
+
   &__suggestions {
     position: absolute;
     top: 100%;
@@ -34,7 +38,16 @@
       &:hover {
         background-color: #e9e9e9;
       }
+      &-active-text {
+        color: #939393;
+      }
     }
+  }
+  &__result {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
 }
 

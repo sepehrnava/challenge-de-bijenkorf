@@ -1,3 +1,5 @@
+import { SearchResults } from "./types";
+
 export const cx = (
   ...classes: (string | Record<string, boolean>)[]
 ): string => {
@@ -13,4 +15,28 @@ export const cx = (
       }
     })
     .join(" ");
+};
+
+export const fetchResults = async (
+  searchQuery: string,
+  page: number,
+  limit: number
+): Promise<SearchResults> => {
+  const params = new URLSearchParams({
+    search: searchQuery,
+    page: page.toString(),
+    limit: limit.toString(),
+  });
+
+  const url = `/api/search?${params.toString()}`;
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error; // Re-throw to handle it in calling function
+  }
 };

@@ -4,6 +4,6 @@ import Home from "pages/index";
 describe("home", () => {
   it("should have a default message", () => {
     render(<Home />);
-    screen.getByText("Edit index.tsx to get started.");
+    screen.getByText("Search Result:");
   });
 });

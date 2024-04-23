@@ -1,3 +1,5 @@
+@import "media";
+
 .button {
   display: flex;
   align-items: center;
@@ -26,6 +28,10 @@
   &--hidden {
     opacity: 0;
   }
+  &--error {
+    filter: invert(19%) sepia(92%) saturate(7479%) hue-rotate(1deg)
+      brightness(97%) contrast(116%);
+  }
 }
 
 .icon {
@@ -37,7 +43,8 @@
 .input {
   padding: 10px;
   border: none;
-  min-width: 250px;
+  width: calc(100vw - 120px);
+
   font-size: 14px;
 
   &:focus {
@@ -48,5 +55,12 @@
   &[type="search"]::-webkit-search-results-button,
   &[type="search"]::-webkit-search-results-decoration {
     display: none;
+  }
+}
+
+@include responsive(xs) {
+  .input {
+    width: auto;
+    min-width: 250px;
   }
 }
