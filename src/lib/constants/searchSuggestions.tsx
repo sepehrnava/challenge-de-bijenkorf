@@ -1,6 +1,6 @@
-import { Suggestion } from "@/types";
+import { Suggestion } from "lib/types";
 
-export const suggestions: Suggestion[] = [
+const suggestions: Suggestion[] = [
   {
     searchterm: "heren truien",
     nrResults: 1100,
@@ -46,3 +46,5 @@ export const suggestions: Suggestion[] = [
     nrResults: 42,
   },
 ];
+
+export default suggestions;

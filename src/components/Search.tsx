@@ -1,52 +1,65 @@
-import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
-
+import { useState, useEffect } from "react";
 import Icons from "components/Icons";
-
 import { cx } from "lib/utils";
-import { ISEARCH_INPUT } from "lib/types";
-
+import { Suggestion, animationDelayStyle } from "lib/types";
 import searchStyles from "styles/Search.module.scss";
 import componentsStyles from "styles/Components.module.scss";
 import typographyStyles from "styles/Typography.module.scss";
 
 const Search = () => {
   const [active, setActive] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    control,
-    setValue,
-    formState: { errors },
-  } = useForm({
-    defaultValues: {
-      query: "",
-    },
-  });
+  const [suggestions, setSuggestions] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const onSubmit = (data: ISEARCH_INPUT) => {
-    console.log(data);
-  };
-
-  const searchQuery = useWatch({
-    control,
-    name: "query",
-  });
+  useEffect(() => {
+    if (searchQuery.length > 2) {
+      fetch(`/api/search?search=${searchQuery}`)
+        .then((response) => response.json())
+        .then((data) => setSuggestions(data))
+        .catch((error) => console.error("Error fetching data: ", error));
+    } else {
+      setSuggestions([]);
+    }
+  }, [searchQuery]);
 
   const clickClose = () => {
-    setValue("query", "");
+    setSearchQuery("");
     setActive(false);
+    setSuggestions([]);
   };
 
-  const inputClass = componentsStyles.input;
-  const buttonIconClass = cx(
-    componentsStyles.button,
-    componentsStyles["button--icon"]
-  );
-
-  const buttonCloseClass = cx(buttonIconClass, {
-    [componentsStyles["button--hidden"]]: !searchQuery,
-  });
+  const renderSuggestion = (suggestion: Suggestion) => {
+    const parts = suggestion.searchterm.split(
+      new RegExp(`(${searchQuery})`, "gi")
+    );
+    return (
+      <>
+        {parts.map((part, index) =>
+          part.toLowerCase() === searchQuery.toLowerCase() ? (
+            <span
+              key={index}
+              style={{
+                color: "#939393",
+              }}
+            >
+              {part}
+            </span>
+          ) : (
+            <span key={index}>{part}</span>
+          )
+        )}
+        &nbsp;
+        <span
+          style={{
+            color: "#939393",
+          }}
+          className={searchStyles["search__suggestions__nrResults"]}
+        >
+          ({suggestion.nrResults})
+        </span>
+      </>
+    );
+  };
 
   return (
     <div className={cx(searchStyles.search, typographyStyles["text-body"])}>
@@ -57,19 +70,26 @@ const Search = () => {
         role="search"
         onFocus={() => setActive(true)}
         onBlur={() => setActive(false)}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => e.preventDefault()}
       >
         <input
           type="search"
-          className={inputClass}
+          className={componentsStyles.input}
           placeholder="Zoeken"
+          autoComplete="off"
           aria-label="Search"
-          {...register("query", { required: true })}
+          name="search"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
         />
 
         <button
           type="button"
-          className={buttonCloseClass}
+          className={cx(
+            componentsStyles.button,
+            componentsStyles["button--icon"],
+            { [componentsStyles["button--hidden"]]: !searchQuery }
+          )}
           onClick={clickClose}
           aria-label="Close search"
         >
@@ -77,23 +97,33 @@ const Search = () => {
         </button>
         <button
           type="submit"
-          className={buttonIconClass}
+          className={cx(
+            componentsStyles.button,
+            componentsStyles["button--icon"]
+          )}
           aria-label="Submit search"
         >
           <Icons name="search" />
         </button>
       </form>
-      <ul className={searchStyles["search__suggestions"]}>
-        <li className={searchStyles["search__suggestions__item"]}>Home</li>
-        <li className={searchStyles["search__suggestions__item"]}>Over ons</li>
-        <li className={searchStyles["search__suggestions__item"]}>
-          Onze diensten
-        </li>
-        <li className={searchStyles["search__suggestions__item"]}>
-          Onze partners
-        </li>
-        <li className={searchStyles["search__suggestions__item"]}>Blog</li>
-        <li className={searchStyles["search__suggestions__item"]}>Contact</li>
+      <ul
+        className={searchStyles["search__suggestions"]}
+        key={suggestions.length}
+      >
+        {suggestions.map((suggestion, index) => {
+          const customStyle: React.CSSProperties & animationDelayStyle = {
+            "--animation-delay": `${index * 0.05}s`,
+          };
+          return (
+            <li
+              key={index}
+              className={searchStyles["search__suggestions__item"]}
+              style={customStyle}
+            >
+              {renderSuggestion(suggestion)}
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
