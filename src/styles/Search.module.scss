@@ -35,8 +35,8 @@
       &:last-child {
         border-bottom: 1px solid #d7d7d7;
       }
-      &:hover {
-        background-color: #e9e9e9;
+      &--active {
+        background-color: #bde4ff;
       }
       &-active-text {
         color: #939393;

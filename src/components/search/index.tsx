@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Icons from "components/Icons";
 import { cx, fetchResults } from "../../lib/utils";
 import { ISUGGESTION } from "../../lib/types";
@@ -18,6 +18,8 @@ const Search = ({ searchResult, setSearchResult }: IPROPS) => {
   const [suggestions, setSuggestions] = useState<ISUGGESTION[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,17 +52,36 @@ const Search = ({ searchResult, setSearchResult }: IPROPS) => {
     setSearchResult(suggestion.searchterm);
   };
 
+  useEffect(() => {
+    if (!active) {
+      setActiveIndex(-1);
+      inputRef.current?.blur();
+    }
+  }, [active]);
+
   const clickClose = () => {
     setSearchQuery("");
     setActive(false);
     setSuggestions([]);
     setSearchResult("");
+    setActiveIndex(-1);
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (suggestions.length > 0) {
       handleSuggestionClick(suggestions[0]);
+    }
+  };
+
+  const handleKeyDown = (e: { key: string }) => {
+    if (e.key === "ArrowDown" && activeIndex < suggestions.length - 1) {
+      setActiveIndex(activeIndex + 1);
+    } else if (e.key === "ArrowUp" && activeIndex > 0) {
+      setActiveIndex(activeIndex - 1);
+    } else if (e.key === "Enter" && activeIndex >= 0) {
+      handleSuggestionClick(suggestions[activeIndex]);
+      setActiveIndex(-1); // reset the active index
     }
   };
 
@@ -74,10 +95,14 @@ const Search = ({ searchResult, setSearchResult }: IPROPS) => {
         handleSubmit={handleSubmit}
         clickClose={clickClose}
         searchResult={searchResult}
+        handleKeyDown={handleKeyDown}
+        inputRef={inputRef}
       />
       <SearchSuggestion
         suggestions={suggestions}
         searchQuery={searchQuery}
+        activeIndex={activeIndex}
+        setActiveIndex={setActiveIndex}
         handleSuggestionClick={handleSuggestionClick}
       />
     </div>

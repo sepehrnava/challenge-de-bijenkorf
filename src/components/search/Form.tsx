@@ -10,19 +10,23 @@ interface IPROPS {
   setActive: (active: boolean) => void;
   searchQuery: string;
   searchResult: string;
+  inputRef: React.RefObject<HTMLInputElement>;
   setSearchQuery: (query: string) => void;
   clickClose: () => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const SearchForm = ({
   active,
   setActive,
+  inputRef,
   searchQuery,
   searchResult,
   setSearchQuery,
   handleSubmit,
   clickClose,
+  handleKeyDown,
 }: IPROPS) => {
   const [error, setError] = useState(false);
 
@@ -53,6 +57,8 @@ const SearchForm = ({
           name="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={handleKeyDown}
+          ref={inputRef}
         />
 
         <button

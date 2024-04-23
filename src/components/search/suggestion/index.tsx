@@ -11,12 +11,16 @@ interface IPROPS {
   suggestions: ISUGGESTION[];
   searchQuery: string;
   handleSuggestionClick: (suggestion: ISUGGESTION) => void;
+  activeIndex: number;
+  setActiveIndex: (index: number) => void;
 }
 
 const SearchSuggestion = ({
   suggestions,
   searchQuery,
   handleSuggestionClick,
+  activeIndex,
+  setActiveIndex,
 }: IPROPS) => {
   return (
     <>
@@ -25,15 +29,20 @@ const SearchSuggestion = ({
         key={suggestions.length}
       >
         {suggestions.map((suggestion, index) => {
+          const isActive = index === activeIndex;
           const customStyle: React.CSSProperties & ANIMATION_DELAY_STYLE = {
             "--animation-delay": `${index * 0.05}s`,
           };
+
           return (
             <li
               key={index}
-              className={searchStyles["search__suggestions__item"]}
+              className={cx(searchStyles["search__suggestions__item"], {
+                [searchStyles["search__suggestions__item--active"]]: isActive,
+              })}
               style={customStyle}
               onClick={() => handleSuggestionClick(suggestion)}
+              onMouseEnter={() => setActiveIndex(index)}
             >
               <SearchItem suggestion={suggestion} searchQuery={searchQuery} />
             </li>

@@ -1,11 +1,11 @@
+// Import necessary libraries and components
 import Head from "next/head";
-
 import Search from "components/search";
 import SearchResult from "components/search/Result";
-
 import LayoutStyles from "styles/Layout.module.scss";
 import { useState } from "react";
 
+// Define the functional component for Home
 const Home = () => {
   const [searchResult, setSearchResult] = useState("");
 
@@ -21,11 +21,11 @@ const Home = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className={LayoutStyles.header}>
+      <header className={LayoutStyles.header} role="banner">
         <Search searchResult={searchResult} setSearchResult={setSearchResult} />
       </header>
 
-      <main className={LayoutStyles.main}>
+      <main className={LayoutStyles.main} role="main">
         <SearchResult result={searchResult} />
       </main>
     </>
