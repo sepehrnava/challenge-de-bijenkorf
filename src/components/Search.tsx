@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Icons from "components/Icons";
-import { cx } from "lib/utils";
-import { Suggestion, animationDelayStyle } from "lib/types";
+import { cx } from "../lib/utils";
+import { Suggestion, animationDelayStyle } from "../lib/types";
 import searchStyles from "styles/Search.module.scss";
 import componentsStyles from "styles/Components.module.scss";
 import typographyStyles from "styles/Typography.module.scss";

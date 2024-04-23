@@ -1,6 +1,6 @@
 import { MouseEventHandler } from "react";
 import Image from "next/image";
-import { cx } from "lib/utils";
+import { cx } from "../lib/utils";
 import styles from "styles/Components.module.scss";
 
 export type IIconNames = "search" | "close";

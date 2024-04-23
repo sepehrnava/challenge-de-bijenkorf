@@ -18,7 +18,9 @@ const Home = () => {
         <Search />
       </header>
 
-      <main className={LayoutStyles.main}></main>
+      <main className={LayoutStyles.main}>
+        <p>Edit index.tsx to get started.</p>
+      </main>
     </>
   );
 };

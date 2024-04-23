@@ -1,4 +1,4 @@
-import suggestions from "lib/constants/searchSuggestions";
+import suggestions from "../../lib/constants/searchSuggestions";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
