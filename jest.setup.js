@@ -1,2 +1,4 @@
 import "@testing-library/jest-dom";
-require("jest-fetch-mock").enableMocks();
+
+import { toHaveNoViolations } from "jest-axe";
+expect.extend(toHaveNoViolations);

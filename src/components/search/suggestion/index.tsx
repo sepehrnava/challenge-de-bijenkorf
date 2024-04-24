@@ -25,6 +25,7 @@ const SearchSuggestion = ({
         key={suggestions.length}
         id="suggestions-list"
         role="listbox"
+        aria-label="Search Suggestions"
       >
         {suggestions.map((suggestion, index) => {
           const isActive = index === activeIndex;
