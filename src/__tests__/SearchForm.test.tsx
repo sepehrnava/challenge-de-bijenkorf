@@ -15,8 +15,8 @@ describe("SearchForm", () => {
 
   test("input value should update on change", () => {
     const inputElement = screen.getByRole("searchbox");
-    fireEvent.change(inputElement, { target: { value: "Python" } });
-    expect(props.setSearchQuery).toHaveBeenCalledWith("Python");
+    fireEvent.change(inputElement, { target: { value: "search query" } });
+    expect(props.setSearchQuery).toHaveBeenCalledWith("search query");
   });
 
   test("should call setActive on input focus", () => {
