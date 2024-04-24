@@ -19,6 +19,7 @@ const config = {
     "styles/(.*)": "<rootDir>/src/styles/$1",
     // "lib/(.*)": "<rootDir>/src/lib/$1",
   },
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
 };
 
 module.exports = createJestConfig(config);

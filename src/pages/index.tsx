@@ -1,11 +1,9 @@
-// Import necessary libraries and components
 import Head from "next/head";
 import Search from "components/search";
 import SearchResult from "components/search/Result";
 import LayoutStyles from "styles/Layout.module.scss";
 import { useState } from "react";
 
-// Define the functional component for Home
 const Home = () => {
   const [searchResult, setSearchResult] = useState("");
 

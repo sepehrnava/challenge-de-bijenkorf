@@ -53,10 +53,7 @@ const SearchForm = ({
         onBlur={() => setActive(false)}
         onSubmit={handleSubmit}
       >
-        <label
-          htmlFor="searchInput"
-          className={searchStyles["visually-hidden"]}
-        >
+        <label htmlFor="search" className={searchStyles["visually-hidden"]}>
           Search
         </label>
         <input
@@ -65,6 +62,7 @@ const SearchForm = ({
           placeholder={placeHolder}
           autoComplete="off"
           name="search"
+          id="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={handleKeyDown}
