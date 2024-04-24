@@ -30,9 +30,9 @@ const Search = ({
       if (searchQuery.length > 2) {
         const data = await fetchResults(searchQuery, 1, 4);
 
-        if ("error" in data) {
+        if (!data) {
           setError(true);
-          console.error(data.details || data.error);
+
           setSuggestions([]);
         } else {
           setSuggestions(data.results);

@@ -21,6 +21,6 @@ export type ApiResponse<T> =
       };
       results: T[];
     }
-  | { error: string; details?: string };
+  | undefined;
 
 export type SearchResults = ApiResponse<ISUGGESTION>;

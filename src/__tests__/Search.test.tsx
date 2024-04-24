@@ -38,6 +38,10 @@ describe("Home page", () => {
     );
   });
 
+  afterEach(() => {
+    jest.restoreAllMocks();
+  });
+
   it("should update search result state on user input", async () => {
     const inputElement = screen.getByRole("searchbox");
     userEvent.type(inputElement, searchQuery);
@@ -59,16 +63,22 @@ describe("Home page", () => {
     });
   });
 
-  // it("should handle network request failures gracefully", async () => {
-  //   // @ts-ignore
-  //   global.fetch = jest.fn(() => Promise.reject(new Error("Network error")));
-  //   const inputElement = screen.getByRole("searchbox");
-  //   userEvent.type(inputElement, searchQuery);
-  //   fireEvent.submit(inputElement);
+  it("should handle network request failures gracefully", async () => {
+    // @ts-ignore
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: false,
+        status: 500,
+        json: () => Promise.resolve({ errorMessage: "Server error" }),
+      })
+    );
+    const inputElement = screen.getByRole("searchbox");
+    userEvent.type(inputElement, searchQuery);
+    fireEvent.submit(inputElement);
 
-  //   await waitFor(() => expect(fetch).toHaveBeenCalled());
-  //   expect(screen.queryByText(/tru/i)).not.toBeInTheDocument();
-  // });
+    await waitFor(() => expect(fetch).toHaveBeenCalled());
+    expect(screen.queryByText(/tru/i)).not.toBeInTheDocument();
+  });
 
   it("should show no results when search does not match any suggestions", async () => {
     // @ts-ignore

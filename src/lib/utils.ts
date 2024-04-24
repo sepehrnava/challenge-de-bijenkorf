@@ -31,12 +31,10 @@ export const fetchResults = async (
   const url = `http://localhost:3000/api/search?${params.toString()}`;
   try {
     const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
+
     return await response.json();
   } catch (error) {
-    console.error("Error fetching data:", error);
-    throw error; // Re-throw to handle it in calling function
+    // console.error("Error fetching data:", error);
+    // throw error;
   }
 };

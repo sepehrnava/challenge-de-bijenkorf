@@ -8,23 +8,23 @@ describe("SearchForm", () => {
     render(<SearchForm {...props} />);
   });
 
-  test("input should be initially empty", () => {
+  it("input should be initially empty", () => {
     const inputElement = screen.getByRole("searchbox") as HTMLInputElement;
     expect(inputElement.value).toBe("");
   });
 
-  test("input value should update on change", () => {
+  it("input value should update on change", () => {
     const inputElement = screen.getByRole("searchbox");
     fireEvent.change(inputElement, { target: { value: "search query" } });
     expect(props.setSearchQuery).toHaveBeenCalledWith("search query");
   });
 
-  test("should call setActive on input focus", () => {
+  it("should call setActive on input focus", () => {
     const inputElement = screen.getByRole("searchbox");
     fireEvent.focus(inputElement);
   });
 
-  test("should call setActive on input blur", () => {
+  it("should call setActive on input blur", () => {
     const inputElement = screen.getByRole("searchbox");
     fireEvent.blur(inputElement);
   });
