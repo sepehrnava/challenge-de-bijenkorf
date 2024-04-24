@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import Icons from "components/Icons";
 import { cx, fetchResults } from "../../lib/utils";
 import { ISUGGESTION } from "../../lib/types";
 import searchStyles from "styles/Search.module.scss";
-import componentsStyles from "styles/Components.module.scss";
 import typographyStyles from "styles/Typography.module.scss";
 import SearchSuggestion from "components/search/suggestion";
 import SearchForm from "components/search/Form";
@@ -14,12 +12,13 @@ interface IPROPS {
 }
 
 const Search = ({ searchResult, setSearchResult }: IPROPS) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const [active, setActive] = useState(false);
   const [suggestions, setSuggestions] = useState<ISUGGESTION[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [error, setError] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,13 +44,6 @@ const Search = ({ searchResult, setSearchResult }: IPROPS) => {
     }
   }, [searchQuery]);
 
-  const handleSuggestionClick = (suggestion: ISUGGESTION) => {
-    setActive(false);
-    setSuggestions([]);
-    setSearchQuery(suggestion.searchterm);
-    setSearchResult(suggestion.searchterm);
-  };
-
   useEffect(() => {
     if (!active) {
       setActiveIndex(-1);
@@ -59,19 +51,12 @@ const Search = ({ searchResult, setSearchResult }: IPROPS) => {
     }
   }, [active]);
 
-  const clickClose = () => {
+  const handleClose = () => {
     setSearchQuery("");
     setActive(false);
     setSuggestions([]);
     setSearchResult("");
     setActiveIndex(-1);
-  };
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (suggestions.length > 0) {
-      handleSuggestionClick(suggestions[0]);
-    }
   };
 
   const handleKeyDown = (e: { key: string }) => {
@@ -81,7 +66,21 @@ const Search = ({ searchResult, setSearchResult }: IPROPS) => {
       setActiveIndex(activeIndex - 1);
     } else if (e.key === "Enter" && activeIndex >= 0) {
       handleSuggestionClick(suggestions[activeIndex]);
-      setActiveIndex(-1); // reset the active index
+      setActiveIndex(-1);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion: ISUGGESTION) => {
+    setActive(false);
+    setSuggestions([]);
+    setSearchQuery(suggestion.searchterm);
+    setSearchResult(suggestion.searchterm);
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (suggestions.length > 0) {
+      handleSuggestionClick(suggestions[0]);
     }
   };
 
@@ -92,10 +91,14 @@ const Search = ({ searchResult, setSearchResult }: IPROPS) => {
         setActive={setActive}
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
-        handleSubmit={handleSubmit}
-        clickClose={clickClose}
         searchResult={searchResult}
+        activeIndex={activeIndex}
+        handleSuggestionClick={handleSuggestionClick}
+        handleClose={handleClose}
+        handleSubmit={handleSubmit}
+        suggestions={suggestions}
         handleKeyDown={handleKeyDown}
+        error={error}
         inputRef={inputRef}
       />
       <SearchSuggestion

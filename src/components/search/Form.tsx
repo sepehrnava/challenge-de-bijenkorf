@@ -1,35 +1,38 @@
-import { useState, useEffect } from "react";
 import Icons from "components/Icons";
-import { cx, fetchResults } from "../../lib/utils";
+import { cx } from "../../lib/utils";
 import { ISUGGESTION } from "../../lib/types";
 import searchStyles from "styles/Search.module.scss";
 import componentsStyles from "styles/Components.module.scss";
 
 interface IPROPS {
   active: boolean;
-  setActive: (active: boolean) => void;
   searchQuery: string;
   searchResult: string;
+  activeIndex: number;
+  error: boolean;
+  suggestions: ISUGGESTION[];
   inputRef: React.RefObject<HTMLInputElement>;
+  handleClose: () => void;
+  setActive: (active: boolean) => void;
+  handleKeyDown: (e: { key: string }) => void;
   setSearchQuery: (query: string) => void;
-  clickClose: () => void;
+  handleSuggestionClick: (suggestion: ISUGGESTION) => void;
   handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 const SearchForm = ({
   active,
   setActive,
-  inputRef,
+  activeIndex,
   searchQuery,
   searchResult,
   setSearchQuery,
   handleSubmit,
-  clickClose,
+  handleClose,
+  inputRef,
   handleKeyDown,
+  error,
 }: IPROPS) => {
-  const [error, setError] = useState(false);
-
   return (
     <>
       <form
@@ -48,17 +51,25 @@ const SearchForm = ({
         onBlur={() => setActive(false)}
         onSubmit={handleSubmit}
       >
+        <label htmlFor="searchInput" className="visually-hidden">
+          Search
+        </label>
         <input
           type="search"
           className={componentsStyles.input}
           placeholder="Zoeken"
           autoComplete="off"
-          aria-label="Search"
           name="search"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           onKeyDown={handleKeyDown}
           ref={inputRef}
+          aria-label="Search"
+          aria-autocomplete="list"
+          aria-controls="suggestions-list"
+          aria-activedescendant={
+            activeIndex >= 0 ? `suggestion-${activeIndex}` : undefined
+          }
         />
 
         <button
@@ -68,7 +79,7 @@ const SearchForm = ({
             componentsStyles["button--icon"],
             { [componentsStyles["button--hidden"]]: !searchQuery }
           )}
-          onClick={clickClose}
+          onClick={handleClose}
           aria-label="Close search"
         >
           <Icons name="close" width={12} />
@@ -84,6 +95,11 @@ const SearchForm = ({
         >
           <Icons name="search" />
         </button>
+        {error && (
+          <div aria-live="assertive" className="visually-hidden">
+            There was an error fetching the search results.
+          </div>
+        )}
       </form>
     </>
   );
