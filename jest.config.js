@@ -20,6 +20,16 @@ const config = {
     // "lib/(.*)": "<rootDir>/src/lib/$1",
   },
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
+  reporters: [
+    "default",
+    [
+      "./node_modules/jest-html-reporter",
+      {
+        pageTitle: "Test Report",
+        outputPath: "./public/test-report.html",
+      },
+    ],
+  ],
 };
 
 module.exports = createJestConfig(config);

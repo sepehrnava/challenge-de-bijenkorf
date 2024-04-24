@@ -6,6 +6,8 @@ This repository contains the frontend for the tech assignment built with Next.js
 
 [Demo](https://challenge-de-bijenkorf.vercel.app/)
 
+[Test Reports](https://challenge-de-bijenkorf.vercel.app/test-report.html)
+
 ## Project Setup
 
 Ensure you have Node.js installed on your system to run this project.
@@ -55,6 +57,8 @@ This project uses Jest for testing. Run the tests with:
 ```bash
 npm run test
 ```
+
+After each run, it will create a test report document located in the public folder.
 
 To watch files for changes and re-run tests related to changed files, use:
 
