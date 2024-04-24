@@ -28,7 +28,7 @@ export const fetchResults = async (
     limit: limit.toString(),
   });
 
-  const url = `/api/search?${params.toString()}`;
+  const url = `http://localhost:3000/api/search?${params.toString()}`;
   try {
     const response = await fetch(url);
     if (!response.ok) {
