@@ -22,3 +22,4 @@ yarn-error.log*
 .next
 *storybook.log
 .cache
+.swc

@@ -9,9 +9,14 @@ import SearchForm from "components/search/Form";
 interface IPROPS {
   searchResult: string;
   setSearchResult: (query: string) => void;
+  placeHolder?: string;
 }
 
-const Search = ({ searchResult, setSearchResult }: IPROPS) => {
+const Search = ({
+  searchResult,
+  setSearchResult,
+  placeHolder = "",
+}: IPROPS) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const [active, setActive] = useState(false);
@@ -100,6 +105,7 @@ const Search = ({ searchResult, setSearchResult }: IPROPS) => {
         handleKeyDown={handleKeyDown}
         error={error}
         inputRef={inputRef}
+        placeHolder={placeHolder}
       />
       <SearchSuggestion
         suggestions={suggestions}

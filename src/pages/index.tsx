@@ -22,7 +22,11 @@ const Home = () => {
       </Head>
 
       <header className={LayoutStyles.header} role="banner">
-        <Search searchResult={searchResult} setSearchResult={setSearchResult} />
+        <Search
+          searchResult={searchResult}
+          setSearchResult={setSearchResult}
+          placeHolder="Zoeken"
+        />
       </header>
 
       <main className={LayoutStyles.main} role="main">

@@ -11,6 +11,7 @@ interface IPROPS {
   activeIndex: number;
   error: boolean;
   suggestions: ISUGGESTION[];
+  placeHolder?: string;
   inputRef: React.RefObject<HTMLInputElement>;
   handleClose: () => void;
   setActive: (active: boolean) => void;
@@ -32,6 +33,7 @@ const SearchForm = ({
   inputRef,
   handleKeyDown,
   error,
+  placeHolder = "",
 }: IPROPS) => {
   return (
     <>
@@ -60,7 +62,7 @@ const SearchForm = ({
         <input
           type="search"
           className={componentsStyles.input}
-          placeholder="Zoeken"
+          placeholder={placeHolder}
           autoComplete="off"
           name="search"
           value={searchQuery}
