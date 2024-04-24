@@ -1,7 +1,7 @@
 // SearchForm.test.js
 import { render, screen, fireEvent } from "@testing-library/react";
 import SearchForm from "components/search/Form";
-import { searchFormProps as props } from "../../../lib/test-utils";
+import { searchFormProps as props } from "../lib/test-utils";
 
 describe("SearchForm", () => {
   beforeEach(() => {
