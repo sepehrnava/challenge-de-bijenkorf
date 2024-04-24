@@ -51,7 +51,10 @@ const SearchForm = ({
         onBlur={() => setActive(false)}
         onSubmit={handleSubmit}
       >
-        <label htmlFor="searchInput" className="visually-hidden">
+        <label
+          htmlFor="searchInput"
+          className={searchStyles["visually-hidden"]}
+        >
           Search
         </label>
         <input
@@ -96,7 +99,10 @@ const SearchForm = ({
           <Icons name="search" />
         </button>
         {error && (
-          <div aria-live="assertive" className="visually-hidden">
+          <div
+            aria-live="assertive"
+            className={searchStyles["visually-hidden"]}
+          >
             There was an error fetching the search results.
           </div>
         )}

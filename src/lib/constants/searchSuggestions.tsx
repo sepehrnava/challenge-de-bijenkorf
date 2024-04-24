@@ -1,6 +1,6 @@
-import { Suggestion } from "lib/types";
+import { ISUGGESTION } from "lib/types";
 
-const suggestions: Suggestion[] = [
+const suggestions: ISUGGESTION[] = [
   {
     searchterm: "heren truien",
     nrResults: 1100,

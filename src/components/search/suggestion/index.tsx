@@ -49,7 +49,11 @@ const SearchSuggestion = ({
           );
         })}
       </ul>
-      <div aria-live="polite" aria-atomic="true" className="visually-hidden">
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        className={searchStyles["visually-hidden"]}
+      >
         {suggestions.length > 0
           ? `${suggestions.length} suggestions found.`
           : "No suggestions found."}
